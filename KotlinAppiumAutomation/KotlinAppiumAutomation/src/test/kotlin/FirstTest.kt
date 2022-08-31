@@ -49,6 +49,21 @@ class FirstTest {
         )
     }
 
+    @Test
+    fun cancelSearch(){
+
+        waitForElementAndClick(By.id("org.wikipedia:id/search_container"),"Element not found",10)
+
+        waitForElementAndSendKeys(By.id("org.wikipedia:id/search_src_text"),"Hello","Element not found",10)
+
+        waitForElementPresent(By.id("org.wikipedia:id/search_results_container"),"Element not found",10)
+
+        waitForElementAndClick(By.id("org.wikipedia:id/search_close_btn"), "Element not found",10)
+
+        waitForElementNotPresent(By.id("org.wikipedia:id/search_results_container"), "Element found",10)
+
+    }
+
     fun assertElementHasText(by: By, title: String, errorMessage: String) {
 
         val element: WebElement = waitForElementPresent(by, errorMessage, 10)
