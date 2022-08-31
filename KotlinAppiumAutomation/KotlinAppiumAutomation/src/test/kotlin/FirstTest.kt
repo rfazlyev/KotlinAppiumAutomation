@@ -66,29 +66,4 @@ class FirstTest {
 
         return wait.until(ExpectedConditions.presenceOfElementLocated(by))
     }
-    fun waitForElementNotPresent(by: By, errorMessage: String, timeoutInSeconds: Long): Boolean {
-
-        val wait = WebDriverWait(driver, timeoutInSeconds)
-
-        wait.withMessage(errorMessage + "\n")
-
-        return wait.until(ExpectedConditions.invisibilityOfElementLocated(by))
-    }
-    fun waitForElementAndClick(by: By, errorMessage: String, timeoutInSeconds: Long): WebElement {
-
-        val element: WebElement = waitForElementPresent(by, errorMessage, timeoutInSeconds)
-
-        element.click()
-
-        return element
-    }
-
-    fun waitForElementAndSendKeys(by: By, value: String, errorMessage: String, timeoutInSeconds: Long): WebElement {
-
-        val element: WebElement = waitForElementPresent(by, errorMessage, timeoutInSeconds)
-
-        element.sendKeys(value)
-
-        return element
-    }
 }
