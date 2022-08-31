@@ -63,22 +63,33 @@ class FirstTest {
         waitForElementNotPresent(By.id("org.wikipedia:id/search_results_container"), "Element found",10)
 
     }
-
-    fun assertElementHasText(by: By, title: String, errorMessage: String) {
-
-        val element: WebElement = waitForElementPresent(by, errorMessage, 10)
-
-        val textFromElement = element.text
-
-        Assert.assertEquals(errorMessage, title, textFromElement)
+    fun waitForElementPresent(by: By, errorMessage: String, timeoutInSeconds: Long): WebElement {
+        val wait = WebDriverWait(driver, timeoutInSeconds)
+        wait.withMessage(errorMessage + "\n")
+        return wait.until(ExpectedConditions.presenceOfElementLocated(by))
     }
 
-    fun waitForElementPresent(by: By, errorMessage: String, timeoutInSeconds: Long): WebElement {
-
-        val wait = WebDriverWait(driver, timeoutInSeconds)
-
+    private fun waitForElementNotPresent(by: By, errorMessage: String, timeout: Long): Boolean {
+        val wait = WebDriverWait(driver, timeout)
         wait.withMessage(errorMessage + "\n")
+        return wait.until(ExpectedConditions.invisibilityOfElementLocated(by))
+    }
 
-        return wait.until(ExpectedConditions.presenceOfElementLocated(by))
+    private fun waitForElementAndClick(by: By, errorMessage: String, timeout: Long): WebElement {
+        val element: WebElement = waitForElementPresent(by, errorMessage, timeout)
+        element.click()
+        return element
+    }
+
+    private fun waitForElementAndSendKeys(by: By, text: String, errorMessage: String, timeout: Long): WebElement {
+        val element: WebElement = waitForElementPresent(by, errorMessage, timeout)
+        element.sendKeys(text)
+        return element
+    }
+
+    fun assertElementHasText(by: By, title: String, errorMessage: String) {
+        val element: WebElement = waitForElementPresent(by, errorMessage, 10)
+        val textFromElement = element.text
+        Assert.assertEquals(errorMessage, title, textFromElement)
     }
 }
