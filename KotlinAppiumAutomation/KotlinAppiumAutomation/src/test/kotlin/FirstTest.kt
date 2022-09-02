@@ -43,6 +43,30 @@ class FirstTest {
     }
 
     @Test
+    fun titleIsPresent(){
+        val textForSearch = "Java"
+        val buttonSearchPage = "org.wikipedia:id/search_container"
+        val inputFieldForSearch = "org.wikipedia:id/search_src_text"
+        val firstArticleFromResult =
+            "//*[@resource-id='org.wikipedia:id/search_results_list']/android.widget.LinearLayout[1]"
+        val titleArticle = "org.wikipedia:id/view_page_title_text"
+
+        //Тапаем на кнопку поиска
+        waitForElementAndClick(By.id(buttonSearchPage),"Element search_container not found",10)
+        //Вводим запрос
+        waitForElementAndSendKeys(
+            By.id(inputFieldForSearch),
+            textForSearch,
+            "Error send keys $textForSearch",
+            10
+        )
+        //Тапаем по первой статье
+        waitForElementAndClick(By.xpath(firstArticleFromResult), "First article not found in result list",10)
+        //Без задержки проверяем что элемент присутствует
+        assertElementPresent(By.id(titleArticle), "Title not present")
+    }
+
+    @Test
     fun saveTwoArticles() {
         // Возможно много переменных, но при изменении теста, как было сказано в видео-уроке проще исправить их, чем искать по каждому шагу локатор
         val textForSearch = "Java"
@@ -191,7 +215,13 @@ class FirstTest {
         swipeUpToFindElement(By.xpath("//*[@text='View page in browser']"), "Not found", 20)
     }
 
-    fun waitForElementPresent(by: By, errorMessage: String, timeoutInSeconds: Long): WebElement {
+    private fun assertElementPresent(by: By, errorMessage: String) : WebElement{
+        val element = WebDriverWait(driver,0)
+        element.withMessage(errorMessage+ "\n")
+        return element.until(ExpectedConditions.presenceOfElementLocated(by))
+
+    }
+    private fun waitForElementPresent(by: By, errorMessage: String, timeoutInSeconds: Long): WebElement {
         val wait = WebDriverWait(driver, timeoutInSeconds)
         wait.withMessage(errorMessage + "\n")
         return wait.until(ExpectedConditions.presenceOfElementLocated(by))
