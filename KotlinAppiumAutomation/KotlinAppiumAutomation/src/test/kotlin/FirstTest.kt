@@ -41,6 +41,31 @@ class FirstTest {
     fun tearDown() {
         driver.quit()
     }
+    @Test
+    fun titleIsPresent(){
+        val textForSearch = "Java"
+        val buttonSearchPage = "org.wikipedia:id/search_container"
+        val inputFieldForSearch = "org.wikipedia:id/search_src_text"
+        val firstArticleFromResult =
+            "//*[@resource-id='org.wikipedia:id/search_results_list']/android.widget.LinearLayout[1]"
+        val titleArticle = "org.wikipedia:id/view_page_title_text"
+
+        //Тапаем на кнопку поиска
+        waitForElementAndClick(By.id(buttonSearchPage),"Element search_container not found",10)
+        //Вводим запрос
+        waitForElementAndSendKeys(
+            By.id(inputFieldForSearch),
+            textForSearch,
+            "Error send keys $textForSearch",
+            10
+        )
+        //Тапаем по первой статье
+        waitForElementAndClick(By.xpath(firstArticleFromResult), "First article not found in result list",10)
+        //Без задержки проверяем что элемент присутствует
+        assertElementPresent(By.id(titleArticle), "Title not present")
+    }
+
+
 
     @Test
     fun saveTwoArticles() {
@@ -189,6 +214,12 @@ class FirstTest {
         )
 
         swipeUpToFindElement(By.xpath("//*[@text='View page in browser']"), "Not found", 20)
+    }
+
+    private fun assertElementPresent(by: By, errorMessage: String): WebElement {
+        val element = WebDriverWait(driver, 0)
+        element.withMessage(errorMessage + "\n")
+        return element.until(ExpectedConditions.presenceOfElementLocated(by))
     }
 
     fun waitForElementPresent(by: By, errorMessage: String, timeoutInSeconds: Long): WebElement {
