@@ -13,8 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait
 open class MainPageObject(
     private val driver: AppiumDriver<WebElement>
 ) {
-
-    fun assertElementPresent(by: By, errorMessage: String): WebElement {
+    fun assertElementPresentWithoutTimeout(by: By, errorMessage: String): WebElement {
         val element = WebDriverWait(driver, 0)
         element.withMessage(errorMessage + "\n")
         return element.until(ExpectedConditions.presenceOfElementLocated(by))
