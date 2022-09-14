@@ -1,29 +1,18 @@
 import lib.CoreTestCase
-import lib.ui.*
-import org.junit.Assert
+import lib.ui.ArticlePageObject
+import lib.ui.MyListPageObject
+import lib.ui.NavigationUI
+import lib.ui.SearchPageObject
 import org.junit.Test
 
-class FirstTest : CoreTestCase() {
+class ArticleTests : CoreTestCase() {
 
-    //Задание Ex3
-    @Test
-    fun testCancelSearch() {
-
-        val SearchPageObject: SearchPageObject = SearchPageObject(driver)
-        SearchPageObject.initSearchInput()
-        SearchPageObject.typeSearchLine("Java")
-        SearchPageObject.searchResultContainerIsPresent()
-        SearchPageObject.clickCancelSearch()
-        SearchPageObject.searchResultContainerIsNotPresent()
-    }
-
-    // Задание Ex5
     @Test
     fun testSaveTwoArticles() {
         val SearchPageObject: SearchPageObject = SearchPageObject(driver)
         val ArticlePageObject: ArticlePageObject = ArticlePageObject(driver)
         val NavigationUI: NavigationUI = NavigationUI(driver)
-        val MyListPageObject:MyListPageObject = MyListPageObject(driver)
+        val MyListPageObject: MyListPageObject = MyListPageObject(driver)
 
         //Тапаем на поле ввода
         SearchPageObject.initSearchInput()
@@ -67,13 +56,13 @@ class FirstTest : CoreTestCase() {
         assertEquals("Title not equals", titleFromListScreen, titleFromArticleScreen)
     }
 
-    //Задание Ex6
+
     @Test
     fun testTitleIsPresent() {
         val SearchPageObject: SearchPageObject = SearchPageObject(driver)
         val ArticlePageObject: ArticlePageObject = ArticlePageObject(driver)
         val NavigationUI: NavigationUI = NavigationUI(driver)
-        val MyListPageObject:MyListPageObject = MyListPageObject(driver)
+        val MyListPageObject: MyListPageObject = MyListPageObject(driver)
 
         //Тапаем на поле ввода
         SearchPageObject.initSearchInput()
@@ -86,14 +75,6 @@ class FirstTest : CoreTestCase() {
     }
 
     @Test
-    fun testSearch(){
-        val SearchPageObject: SearchPageObject = SearchPageObject(driver)
-        SearchPageObject.initSearchInput()
-        SearchPageObject.typeSearchLine("Java")
-        SearchPageObject.waitForSearchResult("Object-oriented programming language")
-    }
-
-    @Test
     fun testSwipeUp() {
         val SearchPageObject: SearchPageObject = SearchPageObject(driver)
         SearchPageObject.initSearchInput()
@@ -103,15 +84,5 @@ class FirstTest : CoreTestCase() {
         val ArticlePageObject: ArticlePageObject = ArticlePageObject(driver)
         ArticlePageObject.waitForTitleElement()
         ArticlePageObject.swipeToFooter()
-    }
-
-    @Test
-    fun testAmountOfNotEmptySearch(){
-        val SearchPageObject: SearchPageObject = SearchPageObject(driver)
-        SearchPageObject.initSearchInput()
-        val search_line = "Linkin Park Discography"
-        SearchPageObject.typeSearchLine(search_line)
-        val amount_of_search_results = SearchPageObject.getAmountOfFoundArticles()
-        Assert.assertTrue("We found too few results", amount_of_search_results > 0)
     }
 }
