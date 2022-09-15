@@ -1,21 +1,22 @@
 package lib.ui
 
 import io.appium.java_client.AppiumDriver
-import org.openqa.selenium.By
 import org.openqa.selenium.WebElement
 
 class WelcomePageObject(driver: AppiumDriver<WebElement>) : MainPageObject(driver) {
 
-    private val STEP_LEARN_MORE_LINK = "//XCUIElementTypeButton[@name=\"Learn more about Wikipedia\"]"
-    private val STEP_NEW_WAYS_TO_EXPLORER_TEXT = "New ways to explore"
-    private val STEP_ADD_OR_EDIT_PREFERED_LANG_LINK = "//XCUIElementTypeButton[@name=\"Add or edit preferred languages\"]"
-    private val STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK = "//XCUIElementTypeStaticText[@name=\"Learn more about data collected\"]"
-    private val NEXT_LINK = "//XCUIElementTypeButton[@name=\"Next\"]"
-    private val GET_STARTED_BUTTON = "//XCUIElementTypeButton[@name=\"Get started\"]"
+    private val STEP_LEARN_MORE_LINK = "xpath://XCUIElementTypeButton[@name=\"Узнать подробнее о Википедии\"]"
+    private val STEP_NEW_WAYS_TO_EXPLORER_TEXT = "xpath://XCUIElementTypeStaticText[@name=\"Новые способы изучения\"]"
+    private val STEP_ADD_OR_EDIT_PREFERED_LANG_LINK =
+        "xpath://XCUIElementTypeButton[@name=\"Добавить или изменить предпочтительные языки\"]"
+    private val STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK =
+        "xpath://XCUIElementTypeStaticText[@name=\"Узнать подробнее о сборе данных\"]"
+    private val NEXT_LINK = "xpath://XCUIElementTypeButton[@name=\"Далее\"]"
+    private val GET_STARTED_BUTTON = "xpath://XCUIElementTypeButton[@name=\"Начать\"]"
 
-     fun waitForLearnMoreLink() {
+    fun waitForLearnMoreLink() {
         this.waitForElementPresent(
-            By.xpath(STEP_LEARN_MORE_LINK),
+            STEP_LEARN_MORE_LINK,
             "Cannot find 'Learn more about Wikipedia' link",
             10
         )
@@ -23,7 +24,7 @@ class WelcomePageObject(driver: AppiumDriver<WebElement>) : MainPageObject(drive
 
     fun waitForNewWayToExploreText() {
         this.waitForElementPresent(
-            By.id(STEP_NEW_WAYS_TO_EXPLORER_TEXT),
+            STEP_NEW_WAYS_TO_EXPLORER_TEXT,
             "Cannot find 'New ways to explore' text",
             10
         )
@@ -31,7 +32,7 @@ class WelcomePageObject(driver: AppiumDriver<WebElement>) : MainPageObject(drive
 
     fun waitForAddOrEditPreferredLangText() {
         this.waitForElementPresent(
-            By.xpath(STEP_ADD_OR_EDIT_PREFERED_LANG_LINK),
+            STEP_ADD_OR_EDIT_PREFERED_LANG_LINK,
             "Cannot find 'Add or edit preferred languages' text",
             10
         )
@@ -39,7 +40,7 @@ class WelcomePageObject(driver: AppiumDriver<WebElement>) : MainPageObject(drive
 
     fun waitForLearnMoreAboutDataCollectedText() {
         this.waitForElementPresent(
-            By.xpath(STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK),
+            STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK,
             "Cannot find 'Learn more about data collected' text",
             10
         )
@@ -47,7 +48,7 @@ class WelcomePageObject(driver: AppiumDriver<WebElement>) : MainPageObject(drive
 
     fun clickNextButton() {
         this.waitForElementAndClick(
-            By.xpath(NEXT_LINK),
+            NEXT_LINK,
             "Cannot find and click 'Next' link",
             10
         )
@@ -55,9 +56,9 @@ class WelcomePageObject(driver: AppiumDriver<WebElement>) : MainPageObject(drive
 
     fun clickGetStartedButton() {
         this.waitForElementAndClick(
-            By.xpath(GET_STARTED_BUTTON),
+            GET_STARTED_BUTTON,
             "Cannot find and click 'Get started' link",
             10
         )
     }
- }
+}

@@ -18,21 +18,7 @@ open class CoreTestCase : TestCase() {
 
     override fun setUp() {
         super.setUp()
-        /*val capabilities: DesiredCapabilities = getCapabilitiesByPlatformEnv()*/
-
-
-        val capabilities:DesiredCapabilities = DesiredCapabilities()
-        capabilities.setCapability("platformName", "Android")
-        capabilities.setCapability("deviceName", "AndroidTestDevice")
-        capabilities.setCapability("platformVersion", "8.0")
-        capabilities.setCapability("automationName", "Appium")
-        capabilities.setCapability("appPackage", "org.wikipedia")
-        capabilities.setCapability("appActivity", ".main.MainActivity")
-        capabilities.setCapability(
-            "app",
-            "/Users/indriver/Desktop/KotlinAppiumAutomation/KotlinAppiumAutomation/apks/org.wikipedia.apk"
-        )
-
+        val capabilities: DesiredCapabilities = getCapabilitiesByPlatformEnv()
 
         driver = AndroidDriver(URL(AppiumURL), capabilities)
     }
@@ -42,11 +28,11 @@ open class CoreTestCase : TestCase() {
         super.tearDown()
     }
 
-    /*private fun getCapabilitiesByPlatformEnv(): DesiredCapabilities {
+    private fun getCapabilitiesByPlatformEnv(): DesiredCapabilities {
 
         val platform = System.getenv("PLATFORM")
 
-        val capabilities:DesiredCapabilities = DesiredCapabilities()
+        val capabilities = DesiredCapabilities()
 
         if (platform.equals(PLATFORM_ANDROID)) {
             capabilities.setCapability("platformName", "Android")
@@ -71,5 +57,5 @@ open class CoreTestCase : TestCase() {
             throw Exception("Cannot get run platform from env variable. Platform value $platform")
         }
         return capabilities
-    }*/
+    }
 }

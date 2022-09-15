@@ -4,11 +4,10 @@ import lib.iOSTestCase
 import lib.ui.WelcomePageObject
 import org.junit.Test
 
-class GetStartedTest: iOSTestCase() {
+class GetStartedTest : iOSTestCase() {
 
     @Test
-    fun testPassThroughWelcome(){
-
+    fun testPassThroughWelcome() {
         val WelcomePageObject = WelcomePageObject(driver)
 
         WelcomePageObject.waitForLearnMoreLink()

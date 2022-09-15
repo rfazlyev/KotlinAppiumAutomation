@@ -1,14 +1,13 @@
 package lib
 
 import io.appium.java_client.AppiumDriver
-import io.appium.java_client.android.AndroidDriver
 import io.appium.java_client.ios.IOSDriver
 import junit.framework.TestCase
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.remote.DesiredCapabilities
 import java.net.URL
 
-open class  iOSTestCase : TestCase() {
+open class iOSTestCase : TestCase() {
 
     lateinit var driver: AppiumDriver<WebElement>
 

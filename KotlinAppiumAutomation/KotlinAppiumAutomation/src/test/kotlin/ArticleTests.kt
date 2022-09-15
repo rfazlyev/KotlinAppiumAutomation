@@ -56,7 +56,6 @@ class ArticleTests : CoreTestCase() {
         assertEquals("Title not equals", titleFromListScreen, titleFromArticleScreen)
     }
 
-
     @Test
     fun testTitleIsPresent() {
         val SearchPageObject: SearchPageObject = SearchPageObject(driver)
