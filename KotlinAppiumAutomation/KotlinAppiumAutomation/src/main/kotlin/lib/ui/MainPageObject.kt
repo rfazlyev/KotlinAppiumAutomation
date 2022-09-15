@@ -9,6 +9,7 @@ import org.openqa.selenium.ScreenOrientation
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
+import java.util.regex.Pattern
 
 open class MainPageObject(
     private val driver: AppiumDriver<WebElement>
@@ -19,7 +20,8 @@ open class MainPageObject(
         return element.until(ExpectedConditions.presenceOfElementLocated(by))
     }
 
-    fun waitForElementPresent(by: By, errorMessage: String, timeoutInSeconds: Long): WebElement {
+    fun waitForElementPresent(/*locator: String*/by: By, errorMessage: String, timeoutInSeconds: Long): WebElement {
+        /*val by = this.getLocatorByString(locator)*/
         val wait = WebDriverWait(driver, timeoutInSeconds)
         wait.withMessage(errorMessage + "\n")
         return wait.until(ExpectedConditions.presenceOfElementLocated(by))
@@ -136,4 +138,21 @@ open class MainPageObject(
     fun appInBackground(timeInSeconds: Int) {
         driver.runAppInBackground(timeInSeconds)
     }
+
+    fun getLocatorByString(locator_with_type: String):By{
+        val exploded_locator = locator_with_type.split(Pattern.quote(":"), limit = 2)
+        val by_type = exploded_locator[0]
+        val locator = exploded_locator[0]
+
+        if(by_type.equals("xpath")){
+            return By.xpath(locator)
+        }
+        else if(by_type.equals("id")){
+            return By.id(locator)
+        }
+        else{
+            throw java.lang.IllegalArgumentException("Cannot get type of locator. Locator $locator_with_type")
+        }
+    }
+
 }
