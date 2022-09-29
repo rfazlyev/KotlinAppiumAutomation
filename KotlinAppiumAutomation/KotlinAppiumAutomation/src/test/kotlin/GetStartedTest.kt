@@ -1,13 +1,13 @@
-package iOS
-
-import lib.iOSTestCase
+import lib.CoreTestCase
+import lib.Platform
 import lib.ui.WelcomePageObject
 import org.junit.Test
 
-class GetStartedTest : iOSTestCase() {
+class GetStartedTest : CoreTestCase() {
 
     @Test
     fun testPassThroughWelcome() {
+        if(Platform.getInstance().isAndroid()) return
         val WelcomePageObject = WelcomePageObject(driver)
 
         WelcomePageObject.waitForLearnMoreLink()

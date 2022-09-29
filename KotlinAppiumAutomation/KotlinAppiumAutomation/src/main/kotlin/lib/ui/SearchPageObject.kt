@@ -3,16 +3,17 @@ package lib.ui
 import io.appium.java_client.AppiumDriver
 import org.openqa.selenium.WebElement
 
-open class SearchPageObject(driver: AppiumDriver<WebElement>) : MainPageObject(driver) {
+abstract class SearchPageObject(driver: AppiumDriver<WebElement>) : MainPageObject(driver) {
 
 
-    private val SEARCH_INIT_ELEMENT = "id:org.wikipedia:id/search_container"
-    private val SEARCH_INPUT = "id:org.wikipedia:id/search_src_text"
-    private val SEARCH_RESULT_BY_SUBSTRING_TPL =
-        "xpath://*[@resource-id='org.wikipedia:id/search_results_container']//*[@text='{SUBSTRING}']"
-    private val SEARCH_RESULT_CONTAINER = "id:org.wikipedia:id/search_results_container"
-    private val SEARCH_CANCEL_BUTTON = "id:org.wikipedia:id/search_close_btn"
-    private val SEARCH_RESULT_LIST = "id:org.wikipedia:id/search_results_list"
+    abstract val SEARCH_INIT_ELEMENT: String
+    abstract val SEARCH_INPUT : String
+    abstract val SEARCH_RESULT_BY_SUBSTRING_TPL: String
+    abstract val SEARCH_RESULT_CONTAINER: String
+    abstract val SEARCH_CANCEL_BUTTON: String
+    open var CLOSE_SEARCH_SCREEN = ""
+    abstract val SEARCH_RESULT_LIST: String
+    abstract val SEARCH_EMPTY_RESULT_ELEMENT: String
 
     fun initSearchInput() {
         this.waitForElementPresent(
@@ -61,6 +62,10 @@ open class SearchPageObject(driver: AppiumDriver<WebElement>) : MainPageObject(d
 
     fun clickCancelSearch() {
         this.waitForElementAndClick(SEARCH_CANCEL_BUTTON, "Cannot find and click search cancel button", 10)
+    }
+
+    fun clickCloseSearchScreen(){
+        this.waitForElementAndClick(CLOSE_SEARCH_SCREEN, "Cannot find and click close search button", 10)
     }
 
     fun getAmountOfFoundArticles(): Int {

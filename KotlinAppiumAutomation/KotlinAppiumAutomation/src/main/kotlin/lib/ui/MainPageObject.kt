@@ -2,6 +2,7 @@ package lib.ui
 
 import io.appium.java_client.AppiumDriver
 import io.appium.java_client.TouchAction
+import lib.Platform
 import org.junit.Assert
 import org.openqa.selenium.By
 import org.openqa.selenium.Dimension
@@ -100,12 +101,16 @@ open class MainPageObject(
         val middle_y: Int = (upper_y + lower_y) / 2
 
         val action: TouchAction = TouchAction(driver)
-        action
-            .press(right_x, middle_y)
-            .waitAction(350)
-            .moveTo(left_x, middle_y)
-            .release()
-            .perform()
+        action.press(right_x, middle_y)
+        action.waitAction(350)
+        if (Platform.getInstance().isAndroid()) {
+            action.moveTo(left_x, middle_y)
+        } else {
+            val offset_x = (-1 * element.size.getWidth())
+            action.moveTo(offset_x,0)
+        }
+        action.release()
+        action.perform()
     }
 
     fun getAmountOfElements(locator: String): Int {
@@ -153,6 +158,24 @@ open class MainPageObject(
             return By.id(locator)
         } else {
             throw java.lang.IllegalArgumentException("Cannot get type of locator. Locator $locator_with_type")
+        }
+    }
+
+    fun isElementLocationOnScreen(locator: String): Boolean {
+        val element_location_by_y =
+            this.waitForElementPresent(locator, "Cannot find element by locator", 5).location.getY()
+        val screen_size_by_y = driver.manage().window().size.height
+        return element_location_by_y < screen_size_by_y
+    }
+
+    fun swipeUpTillElementAppear(locator: String, errorMessage: String, maxSwipes: Int) {
+        var alreadySwipe = 0
+        while (!isElementLocationOnScreen(locator)) {
+            if (alreadySwipe > maxSwipes) {
+                Assert.assertTrue(errorMessage, this.isElementLocationOnScreen(locator))
+            }
+            swipeQuick()
+            alreadySwipe++
         }
     }
 }
