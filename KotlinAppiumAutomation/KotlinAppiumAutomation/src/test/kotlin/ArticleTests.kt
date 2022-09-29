@@ -81,7 +81,10 @@ class ArticleTests : CoreTestCase() {
         //Создаем переменную для сравнения заголовков
         val titleForAssert = "Java (programming language)"
         //Проверяем что статья с заданным заголовком отображается
-        MyListPageObject.articleIsPresent(titleForAssert)
+
+        if(Platform.getInstance().isIOS()){
+            MyListPageObject.articleIsPresent(titleForAssert)
+        }
 
         if (Platform.getInstance().isAndroid()) {
             MyListPageObject.waitForTitleElementFromMyListScreen()
