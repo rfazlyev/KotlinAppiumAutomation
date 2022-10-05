@@ -5,14 +5,15 @@ import org.openqa.selenium.WebElement
 
 class WelcomePageObject(driver: AppiumDriver<WebElement>) : MainPageObject(driver) {
 
-    private val STEP_LEARN_MORE_LINK = "xpath://XCUIElementTypeButton[@name=\"Узнать подробнее о Википедии\"]"
-    private val STEP_NEW_WAYS_TO_EXPLORER_TEXT = "xpath://XCUIElementTypeStaticText[@name=\"Новые способы изучения\"]"
+    private val STEP_LEARN_MORE_LINK = "xpath://XCUIElementTypeButton[@name='Learn more about Wikipedia']"
+    private val STEP_NEW_WAYS_TO_EXPLORER_TEXT = "xpath://XCUIElementTypeStaticText[@name='New ways to explore']"
     private val STEP_ADD_OR_EDIT_PREFERED_LANG_LINK =
-        "xpath://XCUIElementTypeButton[@name=\"Добавить или изменить предпочтительные языки\"]"
+        "xpath://XCUIElementTypeButton[@name='Add or edit preferred languages']"
     private val STEP_LEARN_MORE_ABOUT_DATA_COLLECTED_LINK =
-        "xpath://XCUIElementTypeStaticText[@name=\"Узнать подробнее о сборе данных\"]"
-    private val NEXT_LINK = "xpath://XCUIElementTypeButton[@name=\"Далее\"]"
-    private val GET_STARTED_BUTTON = "xpath://XCUIElementTypeButton[@name=\"Начать\"]"
+        "xpath://XCUIElementTypeStaticText[@name='Learn more about data collected']"
+    private val NEXT_LINK = "xpath://XCUIElementTypeButton[@name='Next']"
+    private val GET_STARTED_BUTTON = "xpath://XCUIElementTypeButton[@name='Get started']"
+    private val SKIP = "xpath://XCUIElementTypeButton[@name='Skip']"
 
     fun waitForLearnMoreLink() {
         this.waitForElementPresent(
@@ -58,6 +59,14 @@ class WelcomePageObject(driver: AppiumDriver<WebElement>) : MainPageObject(drive
         this.waitForElementAndClick(
             GET_STARTED_BUTTON,
             "Cannot find and click 'Get started' link",
+            10
+        )
+    }
+
+    fun clickSkip(){
+        this.waitForElementAndClick(
+            SKIP,
+            "Cannot find and click skip button",
             10
         )
     }

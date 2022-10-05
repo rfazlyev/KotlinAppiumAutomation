@@ -1,32 +1,51 @@
 package lib.ui
 
 import io.appium.java_client.AppiumDriver
+import lib.Platform
 import org.openqa.selenium.WebElement
 
-open class ArticlePageObject(driver: AppiumDriver<WebElement>) : MainPageObject(driver) {
 
-    private val TITLE = "id:org.wikipedia:id/view_page_title_text"
-    private val FOOTER_ELEMENT = "xpath://*[@text='View page in browser']"
-    private val OPTIONS_BUTTON = "xpath://android.widget.ImageView[@content-desc=\"More options\"]"
-    private val OPTIONS_ADD_TO_MY_LIST_BUTTON = "xpath://*[@text='Add to reading list']"
-    private val ADD_TO_MY_LIST_OVERLAY = "id:org.wikipedia:id/onboarding_button"
-    private val MY_LIST_NAME_INPUT = "id:org.wikipedia:id/text_input"
-    private val MY_LIST_OK_BUTTON = "xpath://*[@resource-id='org.wikipedia:id/buttonPanel']//*[@text='OK']"
-    private val CLOSE_ARTICLE_BUTTON =
-        "xpath://*[@resource-id='org.wikipedia:id/page_toolbar']//*[@content-desc='Navigate up']"
-    private val MY_READING_LIST_TPL = "xpath://*[@text='{MY_READING_LIST_NAME}']"
+abstract class ArticlePageObject(driver: AppiumDriver<WebElement>) : MainPageObject(driver) {
+
+    abstract val TITLE: String
+    open var TITLE_IOS_FOR_ASSERT = ""
+    abstract val FOOTER_ELEMENT: String
+    open var OPTIONS_BUTTON: String = ""
+    abstract val OPTIONS_ADD_TO_MY_LIST_BUTTON: String
+    open var ADD_TO_MY_LIST_OVERLAY: String = ""
+    open var MY_LIST_NAME_INPUT: String = ""
+    open var MY_LIST_OK_BUTTON: String = ""
+    abstract val CLOSE_ARTICLE_BUTTON: String
+    open var MY_READING_LIST_TPL: String = ""
+
 
     fun waitForTitleElement(): WebElement {
         return this.waitForElementPresent(TITLE, "Cannot find article title on page", 10)
     }
 
+    fun getArticleName(article_title: String): String {
+        return TITLE_IOS_FOR_ASSERT.replace("{TITLE}", article_title)
+    }
+
+    fun titleIsPresent(article_title: String){
+        val first_article_xpath = getArticleName(article_title)
+        this.waitForElementPresent(first_article_xpath,"Article not present",10)
+    }
+
     fun getArticleTitle(): String {
         val title_element: WebElement = waitForTitleElement()
-        return title_element.text
+        return if (Platform.getInstance().isAndroid())
+            title_element.text
+        else
+            title_element.tagName
     }
 
     fun swipeToFooter() {
-        this.swipeUpToFindElement(FOOTER_ELEMENT, "Cannot find element", 20)
+        if (Platform.getInstance().isAndroid()) {
+            this.swipeUpToFindElement(FOOTER_ELEMENT, "Cannot find element", 40)
+        } else {
+            this.swipeUpTillElementAppear(FOOTER_ELEMENT, "Cannot find the end of article", 40)
+        }
     }
 
     fun addArticleToMyNewList(name_of_folder: String) {
@@ -70,5 +89,9 @@ open class ArticlePageObject(driver: AppiumDriver<WebElement>) : MainPageObject(
 
     fun checkTitlePresentWithoutTimeout() {
         assertElementPresentWithoutTimeout(TITLE, "title not found")
+    }
+
+    fun addArticlesToMySaved() {
+        waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON, "Cannot find option to add article to reading list", 10)
     }
 }

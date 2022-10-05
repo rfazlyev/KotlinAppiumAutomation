@@ -1,5 +1,6 @@
 import lib.CoreTestCase
 import lib.ui.SearchPageObject
+import lib.ui.factories.SearchPageObjectFactory
 import org.junit.Assert
 import org.junit.Test
 
@@ -8,7 +9,7 @@ class SearchTests : CoreTestCase() {
     @Test
     fun testCancelSearch() {
 
-        val SearchPageObject: SearchPageObject = SearchPageObject(driver)
+        val SearchPageObject: SearchPageObject = SearchPageObjectFactory.get(driver)
         SearchPageObject.initSearchInput()
         SearchPageObject.typeSearchLine("Java")
         SearchPageObject.searchResultContainerIsPresent()
@@ -18,7 +19,7 @@ class SearchTests : CoreTestCase() {
 
     @Test
     fun testSearch() {
-        val SearchPageObject: SearchPageObject = SearchPageObject(driver)
+        val SearchPageObject: SearchPageObject = SearchPageObjectFactory.get(driver)
         SearchPageObject.initSearchInput()
         SearchPageObject.typeSearchLine("Java")
         SearchPageObject.waitForSearchResult("Object-oriented programming language")
@@ -26,7 +27,7 @@ class SearchTests : CoreTestCase() {
 
     @Test
     fun testAmountOfNotEmptySearch() {
-        val SearchPageObject: SearchPageObject = SearchPageObject(driver)
+        val SearchPageObject: SearchPageObject = SearchPageObjectFactory.get(driver)
         SearchPageObject.initSearchInput()
         val search_line = "Linkin Park Discography"
         SearchPageObject.typeSearchLine(search_line)
